@@ -1,0 +1,28 @@
+{
+  "name": "migrations",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "rizkylaleur1988@gmail.com",
+  "type": "commonjs",
+  "scripts": {
+    "migrate": "node-pg-migrate",
+    "migrate:up": "npm run migrate -- up",
+    "migrate:down": "npm run migrate -- down",
+    "seed": "tsx seed.ts"
+  },
+  "dependencies": {
+    "argon2": "^0.45.2",
+    "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "node-pg-migrate": "^7.6.1",
+    "tsx": "^4.23.15"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "fsevents@2.3.3": true,
+    "argon2@0.45.2": true
+  }
+}

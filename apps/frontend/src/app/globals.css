@@ -1,0 +1,26 @@
+body { margin: 0; background: #f4f6f9; color: #212529; }
+
+/* Login */
+.login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #e9ecef; padding: 16px; }
+.login-box { width: 360px; max-width: 100%; }
+.login-logo { text-align: center; font-size: 2.1rem; font-weight: 300; margin-bottom: 16px; color: #495057; }
+.login-card { background: #fff; padding: 20px; border-top: 3px solid #007bff; border-radius: 4px; box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2); }
+.login-msg { text-align: center; margin: 0 0 20px; }
+
+/* Layout */
+.brand { height: 57px; display: flex; align-items: center; padding: 0 20px; font-size: 1.25rem; font-weight: 300; color: #fff; border-bottom: 1px solid #4b545c; white-space: nowrap; }
+.page-title { padding: 15px 20px 10px; margin: 0; font-size: 1.8rem; font-weight: 400; }
+.page-body { padding: 0 20px 20px; }
+
+/* Card & small box ala AdminLTE */
+.box { background: #fff; border-top: 3px solid #007bff; border-radius: 4px; box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2); margin-bottom: 16px; }
+.box-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid rgba(0,0,0,.125); }
+.box-title { margin: 0; font-size: 1.1rem; }
+.box-body { padding: 16px 20px; }
+.small-box { color: #fff; border-radius: 4px; padding: 14px; margin-bottom: 20px; box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2); }
+.small-box h3 { color: inherit; margin: 0 0 6px; font-size: 2.1rem; font-weight: 700; }
+.small-box p { margin: 0; }
+.bg-info { background: #17a2b8; }
+.bg-success { background: #28a745; }
+.bg-warning { background: #ffc107; color: #1f2d3d; }
+.bg-danger { background: #dc3545; }

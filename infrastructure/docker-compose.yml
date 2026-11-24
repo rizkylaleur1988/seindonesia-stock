@@ -1,0 +1,90 @@
+name: 'seindonesia-stock'
+networks:
+  seindonesia-stock:
+    name: seindonesia-stock
+    driver: bridge
+services:
+  postgres:
+    platform: linux/amd64
+    build:
+      context: ..
+      dockerfile: infrastructure/docker/postgres.Dockerfile
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-seindonesia_stock}
+      POSTGRES_USER: ${POSTGRES_USER:-seindonesia}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-P@ssw0rd}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - seindonesia-stock
+  nginx:
+    image: nginx:latest
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx/default.local.conf:/etc/nginx/conf.d/default.conf
+    depends_on: 
+      - frontend
+      - backend
+    networks:
+      - seindonesia-stock
+  migrations:
+    restart: unless-stopped
+    build:
+      context: ..
+      dockerfile: infrastructure/docker/migrations.Dockerfile
+      args:
+        MIGRATIONS_PATH: ${MIGRATIONS_PATH:-./../apps/migrations}
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-seindonesia}:${POSTGRES_PASSWORD:-P@ssw0rd}@postgres:5432/${POSTGRES_DB:-seindonesia_stock}
+    volumes:
+      - '${MIGRATIONS_PATH}:/src'
+      - migrations_node_modules:/src/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - seindonesia-stock
+  backend:
+    restart: unless-stopped
+    build:
+      context: ..
+      dockerfile: infrastructure/docker/backend.Dockerfile
+    env_file:
+      - ${BACKEND_PATH}/.env
+    volumes:
+      - '${BACKEND_PATH}:/src'
+      - backend_node_modules:/src/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - seindonesia-stock
+  frontend:
+    restart: unless-stopped
+    build:
+      context: ..
+      dockerfile: infrastructure/docker/frontend.Dockerfile
+    env_file:
+      - ${FRONTEND_PATH}/.env
+    environment:
+      WATCHPACK_POLLING: "true"
+    volumes:
+      - '${FRONTEND_PATH}:/src'
+      - frontend_node_modules:/src/node_modules
+      - frontend_next:/src/.next
+    networks:
+      - seindonesia-stock
+volumes:
+  migrations_node_modules:
+  backend_node_modules:
+  frontend_node_modules:
+  frontend_next:
